@@ -1,23 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
 
 import static java.awt.Color.black;
 
 public class MyWindow extends JFrame {
     public MyWindow() {
-        super("Ma bibliothèque");
-        setSize(900, 700);
+        super("Biblio.exe");
+        this.setSize(900, 700);
         JPanel panel = new JPanel();
-        setContentPane(panel);
+        this.setContentPane(panel);
         panel.setBackground(Color.lightGray);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JMenuBar menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
-        JMenu menu = new JMenu();
-        menu.setText("Fichier");
-        menuBar.add(menu);
-        menu.setBackground(Color.gray);
-        
+        JMenu menuF = new JMenu();
+        menuF.setText("File");
+        menuBar.add(menuF);
+        menuF.setBackground(Color.gray);
+        JMenu menuO = new JMenu();
+        menuO.setText("Open");
+        menuF.add(menuO);
+        JMenu menuE = new JMenu();
+        menuE.setText("Edit");
+        menuBar.add(menuE);
+        menuE.setBackground(Color.gray);
+        JMenu menuA = new JMenu();
+        menuA.setText("About");
+        menuBar.add(menuA);
+        menuA.setBackground(Color.gray);
+
         //FORM
 
         //GridBagLayout
@@ -42,7 +60,7 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldAuthor = new JTextField();
         textFieldAuthor.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 1;
         panel.add(textFieldAuthor, gbc);
 
@@ -53,7 +71,7 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldParution = new JTextField();
         textFieldParution.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 2;
         panel.add(textFieldParution, gbc);
 
@@ -64,7 +82,7 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldColumn = new JTextField();
         textFieldColumn.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 3;
         panel.add(textFieldColumn, gbc);
 
@@ -75,7 +93,7 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldRangee = new JTextField();
         textFieldRangee.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 4;
         panel.add(textFieldRangee, gbc);
 
@@ -86,16 +104,48 @@ public class MyWindow extends JFrame {
 
         JTextArea textAreaResume = new JTextArea();
         textAreaResume.setPreferredSize(new Dimension(100, 50));
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 5;
         panel.add(textAreaResume, gbc);
 
         //Bouton Valider
         JButton monButton = new JButton("Valider");
-        gbc.insets = new Insets(20, 10 , 0, 0);
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 6;
         gbc.gridx = 1;
         panel.add(monButton, gbc);
+
+        menuO.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setAcceptAllFileFilterUsed(false);
+                fileChooser.addChoosableFileFilter(new MyFilter());
+                int dialog = fileChooser.showDialog(panel, "Ouvrir");
+                if (dialog == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    System.out.println(file.getName() + " a été ouvert");
+                } else {
+                    System.out.println("Action annulée");
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
     }
 
 
