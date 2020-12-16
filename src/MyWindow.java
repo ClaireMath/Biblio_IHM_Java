@@ -6,8 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-import static java.awt.Color.black;
-
 public class MyWindow extends JFrame {
     public MyWindow() {
         super("Biblio.exe");
@@ -24,7 +22,7 @@ public class MyWindow extends JFrame {
         menuF.setText("File");
         menuBar.add(menuF);
         menuF.setBackground(Color.gray);
-        JMenu menuO = new JMenu();
+        JMenuItem menuO = new JMenuItem();
         menuO.setText("Open");
         menuF.add(menuO);
         JMenu menuE = new JMenu();
@@ -115,9 +113,9 @@ public class MyWindow extends JFrame {
         gbc.gridx = 1;
         panel.add(monButton, gbc);
 
-        menuO.addMouseListener(new MouseListener() {
+        menuO.addActionListener(new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setAcceptAllFileFilterUsed(false);
                 fileChooser.addChoosableFileFilter(new MyFilter());
@@ -129,25 +127,6 @@ public class MyWindow extends JFrame {
                     System.out.println("Action annulée");
                 }
             }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
         });
     }
-
-
-
 }
