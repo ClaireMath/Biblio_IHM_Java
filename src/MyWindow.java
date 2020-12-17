@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.*;
 
 import static java.awt.Color.black;
 
@@ -23,6 +24,8 @@ public class MyWindow extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
+        int curYear = Calendar.getInstance().get(Calendar.YEAR);
+        System.out.println(curYear);
         /* File Menu and its sub-menus */
         JMenu menuF = new JMenu();
         menuF.setText("Fichier");
@@ -256,10 +259,24 @@ public class MyWindow extends JFrame {
 
         // Ecoute bouton valider
         monButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if (curYear < (getText(textFieldParution)) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une date de parution valide.");
+                }
+                else if (getText(textFieldRangee) <= 0 || getText(textFieldRangee) >= 7) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
+                }
+                else if (getText(textFieldColumn) <= 0 || getText(textFieldRangee) >= 5) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
             }
+                else if (boucle) {
+
+                }
+                else { new Livres();
+
+                }
         });
     }
 }
