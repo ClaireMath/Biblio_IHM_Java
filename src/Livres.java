@@ -6,6 +6,16 @@ public class Livres {
     private int colonne;
     private int rangee;
     private String parution;
+    Object[] objLivre;
+
+    /*public Livres(String name, String auteur, String resume, int colonne, int rangee, String parution) {
+        this.name = name;
+        this.auteur = auteur;
+        this.resume = resume;
+        this.colonne = colonne;
+        this.rangee = rangee;
+        this.parution = parution;
+    }*/
 
     public Livres(String titre, String auteur, String resume, int colonne, int rangee, String parution) {
         this.titre = titre;
@@ -14,6 +24,7 @@ public class Livres {
         this.colonne = colonne;
         this.rangee = rangee;
         this.parution = parution;
+        this.objLivre = new Object[] {name, auteur, resume, colonne, rangee, parution};
     }
 
     public String getTitre() {
@@ -62,5 +73,9 @@ public class Livres {
 
     public void setParution(String parution) {
         this.parution = parution;
+    }
+
+    public Object[] getObjLivre() {
+        return objLivre;
     }
 }
