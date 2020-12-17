@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.*;
+
+import static java.awt.Color.black;
 
 public class MyWindow extends JFrame {
     public MyWindow() {
@@ -18,6 +22,8 @@ public class MyWindow extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
+        int curYear = Calendar.getInstance().get(Calendar.YEAR);
+        System.out.println(curYear);
         /* File Menu and its sub-menus */
         JMenu menuF = new JMenu();
         menuF.setText("Fichier");
@@ -62,9 +68,8 @@ public class MyWindow extends JFrame {
         menuA.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(panel, "Vous utilisez actuellement la version " +
-                        "1.0 de l'application Bibliothèque.exe créée par Christopher, " +
-                        "Nohan, Axel et Claire.");
+                JOptionPane.showMessageDialog(panel,"Version : 1.0 \nProgrammeurs : Christopher, " +
+                        "Nohan, Axel et Claire");
             }
 
             @Override
@@ -271,8 +276,22 @@ public class MyWindow extends JFrame {
 
         // Ecoute bouton valider
         monButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (curYear < (getText(textFieldParution)) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une date de parution valide.");
+                }
+                else if (getText(textFieldRangee) <= 0 || getText(textFieldRangee) >= 7) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
+                }
+                else if (getText(textFieldColumn) <= 0 || getText(textFieldRangee) >= 5) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
+            }
+                else if (boucle) {
+
+                }
+                else { new Livres();
 
             }
         });
