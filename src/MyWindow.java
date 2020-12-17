@@ -32,11 +32,10 @@ public class MyWindow extends JFrame {
         JMenuItem menuStats = new JMenuItem();
         menuStats.setText("Statistiques");
         menuF.add(menuStats);
-
-
         JMenuItem menuQ = new JMenuItem();
         menuQ.setText("Quitter");
         menuF.add(menuQ);
+
         menuQ.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -111,6 +110,9 @@ public class MyWindow extends JFrame {
             }
         });
 
+        //GridBagLayout
+        GridBagLayout monLayout = new GridBagLayout();
+        panel.setLayout(monLayout);
         GridBagConstraints gbc = new GridBagConstraints();
 
         // TABLEAU
@@ -127,23 +129,13 @@ public class MyWindow extends JFrame {
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-
         panel.add(tableau.getTableHeader(), gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
-
         panel.add(tableau, gbc);
 
-        pack();
-
         //FORM
-
-        //GridBagLayout
-        GridBagLayout monLayout = new GridBagLayout();
-        panel.setLayout(monLayout);
-        // GridBagConstraints gbc = new GridBagConstraints();
-
         //Titre
         JLabel label = new JLabel("Titre :");
         gbc.insets = new Insets(20, 10, 0, 0);
