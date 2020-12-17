@@ -124,6 +124,8 @@ public class MyWindow extends JFrame {
         String[] entetes = {"Titre", "Auteur", "Résumé", "Colonne", "Rangée", "Parution"};
 
         JTable tableau = new JTable(donnee, entetes);
+        tableau.getTableHeader().setFont(new Font("Tahome", Font.BOLD, 14));
+        gbc.insets = new Insets(20,0, 0, 50);
         gbc.gridx = 0;
         gbc.gridy = 0;
 
@@ -131,8 +133,13 @@ public class MyWindow extends JFrame {
         gbc.gridheight = 1;
         panel.add(tableau.getTableHeader(), gbc);
 
+        gbc.insets = new Insets(0,0, 0, 50);
         gbc.gridx = 0;
         gbc.gridy = 1;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.anchor = GridBagConstraints.NORTH;
         panel.add(tableau, gbc);
 
         //FORM
@@ -141,6 +148,9 @@ public class MyWindow extends JFrame {
         gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 2;
         gbc.gridy = 0;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
         panel.add(label, gbc);
 
         JTextField textFieldTitle = new JTextField();
@@ -151,14 +161,12 @@ public class MyWindow extends JFrame {
 
         //Author
         JLabel labelAuthor = new JLabel("Auteur :");
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 2;
         gbc.gridy = 1;
         panel.add(labelAuthor, gbc);
 
         JTextField textFieldAuthor = new JTextField();
         textFieldAuthor.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 1;
         panel.add(textFieldAuthor, gbc);
@@ -171,7 +179,6 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldParution = new JTextField();
         textFieldParution.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 2;
         panel.add(textFieldParution, gbc);
@@ -184,7 +191,6 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldColumn = new JTextField();
         textFieldColumn.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 3;
         panel.add(textFieldColumn, gbc);
@@ -197,7 +203,6 @@ public class MyWindow extends JFrame {
 
         JTextField textFieldRangee = new JTextField();
         textFieldRangee.setPreferredSize(new Dimension(100, 20));
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 4;
         panel.add(textFieldRangee, gbc);
@@ -210,14 +215,12 @@ public class MyWindow extends JFrame {
 
         JTextArea textAreaResume = new JTextArea();
         textAreaResume.setPreferredSize(new Dimension(100, 50));
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 5;
         panel.add(textAreaResume, gbc);
 
         //Bouton Valider
         JButton monButton = new JButton("Valider");
-        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridx = 3;
         gbc.gridy = 6;
         panel.add(monButton, gbc);
