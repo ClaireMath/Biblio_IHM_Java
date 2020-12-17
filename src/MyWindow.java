@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
 
 public class MyWindow extends JFrame {
     public MyWindow() {
@@ -43,6 +44,7 @@ public class MyWindow extends JFrame {
 
         //Titre
         JLabel label = new JLabel("Titre :");
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 0;
         panel.add(label, gbc);
 
@@ -53,6 +55,7 @@ public class MyWindow extends JFrame {
 
         //Author
         JLabel labelAuthor = new JLabel("Auteur :");
+        gbc.insets = new Insets(20, 10, 0, 0);
         gbc.gridy = 1;
         panel.add(labelAuthor, gbc);
 
@@ -113,6 +116,7 @@ public class MyWindow extends JFrame {
         gbc.gridx = 1;
         panel.add(monButton, gbc);
 
+        // Fenetre Ouvrir un fichier
         menuO.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,10 +126,27 @@ public class MyWindow extends JFrame {
                 int dialog = fileChooser.showDialog(panel, "Ouvrir");
                 if (dialog == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
-                    System.out.println(file.getName() + " a été ouvert");
+                    Desktop desktop = Desktop.getDesktop();
+                    if(file.exists()) {
+                        try {
+                            desktop.open(file.getAbsoluteFile());
+                            System.out.println(file.getName() + " a été ouvert");
+                            System.out.println("Le chemin complet du fichier est : " + file.getAbsolutePath());
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    }
                 } else {
                     System.out.println("Action annulée");
                 }
+            }
+        });
+
+        // Ecoute bouton valider
+        monButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
