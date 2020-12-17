@@ -1,5 +1,9 @@
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,29 +101,6 @@ public class MyWindow extends JFrame {
             }
         });
 
-        menuRaz.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
-
-        menuStats.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                List<String> motAvecA = new ArrayList<>();
-                String[] testSplit = {"tata", "toto", "tate", "test", "taboule" };
-
-                for (String mot : testSplit) {
-                    String[] split = mot.split("");
-                    if(split[1].equals("a")) {
-                        motAvecA.add(mot);
-                    }
-                }
-                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
-            }
-        });
-
         //GridBagLayout
         GridBagLayout monLayout = new GridBagLayout();
         panel.setLayout(monLayout);
@@ -130,10 +111,17 @@ public class MyWindow extends JFrame {
 
         Bibliotheque biblio = new Bibliotheque();
         DefaultTableModel model = new DefaultTableModel(biblio.getDonnee(), entetes);
-        JTable tableau = new JTable(model);
-
+        JTable tableau = new JTable(model) {
+            @Override
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+                Component comp = super.prepareRenderer(renderer, row, column);
+                comp.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+                return comp;
+            }
+        };
         tableau.getTableHeader().setFont(new Font("Tahome", Font.BOLD, 14));
         gbc.insets = new Insets(20, 0, 0, 50);
+        gbc.fill = GridBagConstraints.VERTICAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
 
@@ -258,6 +246,14 @@ public class MyWindow extends JFrame {
         gbc.gridy = 6;
         panel.add(monButton, gbc);
 
+        ArrayList<JTextComponent> elements = new ArrayList();
+        elements.add(textFieldTitle);
+        elements.add(textFieldAuthor);
+        elements.add(textFieldParution);
+        elements.add(textFieldColumn);
+        elements.add(textFieldRangee);
+        elements.add(textAreaResume);
+
         // Fenetre Ouvrir un fichier
         menuO.addActionListener(new ActionListener() {
             @Override
@@ -289,40 +285,94 @@ public class MyWindow extends JFrame {
         // Ecoute bouton valider
         monButton.addActionListener(new ActionListener() {
             int i = 0;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (curYear < (Integer.parseInt(textFieldParution.getText()))) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une date de parution valide.");
-                }
-                else if (Integer.parseInt(textFieldColumn.getText()) <= 0 || Integer.parseInt(textFieldColumn.getText()) > 5) {
+                } else if (Integer.parseInt(textFieldColumn.getText()) <= 0 || Integer.parseInt(textFieldColumn.getText()) > 5) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
-                }
-                else if (Integer.parseInt(textFieldRangee.getText()) <= 0 || Integer.parseInt(textFieldRangee.getText()) > 7) {
+                } else if (Integer.parseInt(textFieldRangee.getText()) <= 0 || Integer.parseInt(textFieldRangee.getText()) > 7) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
-                }
-                else {
-                    System.out.println("Tout va bien");
+                } else {
                     biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
                             Integer.parseInt(textFieldColumn.getText()), Integer.parseInt(textFieldRangee.getText()),
                             Integer.parseInt(textFieldParution.getText()));
 
                     model.addRow(biblio.getListLivre().get(i++));
-//                    i++;
+                    emptyForm(elements);
+                    disableForm(elements, monButton);
                 }
+            }
+        });
+
+        menuStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String> motAvecA = new ArrayList<>();
+                String[] testSplit = {"tata", "toto", "tate", "test", "taboule"};
+
+                for (String mot : testSplit) {
+                    String[] split = mot.split("");
+                    if (split[1].equals("a")) {
+                        motAvecA.add(mot);
+                    }
+                }
+//                for (int i = 0; i < 1 ; i++) {
+//                    for (int j = 0; j < tableau.getRowCount(); j++) {
+//                        String split = .split("");
+//                        if (split[1].equals("a")) {
+//                            motAvecA.add(mot);
+//                        }
+//                    }
+//                }
+                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
             }
         });
 
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                textFieldTitle.setEnabled(true);
-                textFieldAuthor.setEnabled(true);
-                textFieldParution.setEnabled(true);
-                textFieldColumn.setEnabled(true);
-                textFieldRangee.setEnabled(true);
-                textAreaResume.setEnabled(true);
-                monButton.setEnabled(true);
+                emptyForm(elements);
+                enableForm(elements);
+//                monButton.setEnabled(true);
             }
         });
+
+        delButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                model.removeRow(tableau.getSelectedRow());
+            }
+        });
+
+        menuRaz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                while (tableau.getRowCount() != 0) {
+                    model.removeRow(0);
+                }
+                disableForm(elements, monButton);
+            }
+        });
+    }
+
+    public void emptyForm(ArrayList<JTextComponent> elements) {
+        for (JTextComponent element : elements) {
+            element.setText(null);
+        }
+    }
+
+    public void enableForm(ArrayList<JTextComponent> elements) {
+        for (JTextComponent element : elements) {
+            element.setEnabled(true);
+        }
+    }
+
+    public void disableForm(ArrayList<JTextComponent> elements, JButton monButton) {
+        for (JTextComponent element : elements) {
+            element.setEnabled(false);
+        }
+        monButton.setEnabled(false);
     }
 }
