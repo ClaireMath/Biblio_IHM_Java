@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,9 +6,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-
-import static java.awt.Color.black;
 
 public class MyWindow extends JFrame {
     public MyWindow() {
@@ -68,7 +63,7 @@ public class MyWindow extends JFrame {
         menuA.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(panel,"Vous utilisez actuellement la version " +
+                JOptionPane.showMessageDialog(panel, "Vous utilisez actuellement la version " +
                         "1.0 de l'application Bibliothèque.exe créée par Christopher, " +
                         "Nohan, Axel et Claire.");
             }
@@ -94,27 +89,27 @@ public class MyWindow extends JFrame {
             }
         });
 
-            menuNew.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(panel,"Voici la liste des nouveautés, parues à partir de 2018.");
-                }
-            });
+        menuNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(panel, "Voici la liste des nouveautés, parues à partir de 2018.");
+            }
+        });
 
-            menuRaz.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
+        menuRaz.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-                }
-            });
+            }
+        });
 
-            menuStats.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(panel,"Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.");
+        menuStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.");
 
-                }
-            });
+            }
+        });
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -133,18 +128,12 @@ public class MyWindow extends JFrame {
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
 
-
-
         panel.add(tableau.getTableHeader(), gbc);
-
-
-
 
         gbc.gridx = 0;
         gbc.gridy = 1;
 
         panel.add(tableau, gbc);
-
 
         pack();
 
@@ -158,75 +147,87 @@ public class MyWindow extends JFrame {
         //Titre
         JLabel label = new JLabel("Titre :");
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 2;
         gbc.gridy = 0;
         panel.add(label, gbc);
 
         JTextField textFieldTitle = new JTextField();
         textFieldTitle.setPreferredSize(new Dimension(100, 20));
+        gbc.gridx = 3;
         gbc.gridy = 0;
         panel.add(textFieldTitle, gbc);
 
         //Author
         JLabel labelAuthor = new JLabel("Auteur :");
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 2;
         gbc.gridy = 1;
         panel.add(labelAuthor, gbc);
 
         JTextField textFieldAuthor = new JTextField();
         textFieldAuthor.setPreferredSize(new Dimension(100, 20));
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 1;
         panel.add(textFieldAuthor, gbc);
 
         //Parution
         JLabel labelParution = new JLabel("Parution :");
+        gbc.gridx = 2;
         gbc.gridy = 2;
         panel.add(labelParution, gbc);
 
         JTextField textFieldParution = new JTextField();
         textFieldParution.setPreferredSize(new Dimension(100, 20));
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 2;
         panel.add(textFieldParution, gbc);
 
         //Colonne
         JLabel labelColumn = new JLabel("Colonne :");
+        gbc.gridx = 2;
         gbc.gridy = 3;
         panel.add(labelColumn, gbc);
 
         JTextField textFieldColumn = new JTextField();
         textFieldColumn.setPreferredSize(new Dimension(100, 20));
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 3;
         panel.add(textFieldColumn, gbc);
 
         //Rangée
         JLabel labelRangee = new JLabel("Rangée :");
+        gbc.gridx = 2;
         gbc.gridy = 4;
         panel.add(labelRangee, gbc);
 
         JTextField textFieldRangee = new JTextField();
         textFieldRangee.setPreferredSize(new Dimension(100, 20));
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 4;
         panel.add(textFieldRangee, gbc);
 
         //Résumé
         JLabel labelResume = new JLabel("Résumé :");
+        gbc.gridx = 2;
         gbc.gridy = 5;
         panel.add(labelResume, gbc);
 
         JTextArea textAreaResume = new JTextArea();
         textAreaResume.setPreferredSize(new Dimension(100, 50));
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 5;
         panel.add(textAreaResume, gbc);
 
         //Bouton Valider
         JButton monButton = new JButton("Valider");
         gbc.insets = new Insets(20, 10, 0, 0);
+        gbc.gridx = 3;
         gbc.gridy = 6;
-        gbc.gridx = 1;
         panel.add(monButton, gbc);
 
         // Fenetre Ouvrir un fichier
@@ -240,7 +241,7 @@ public class MyWindow extends JFrame {
                 if (dialog == JFileChooser.APPROVE_OPTION) {
                     File file = fileChooser.getSelectedFile();
                     Desktop desktop = Desktop.getDesktop();
-                    if(file.exists()) {
+                    if (file.exists()) {
                         try {
                             desktop.open(file.getAbsoluteFile());
                             System.out.println(file.getName() + " a été ouvert");
