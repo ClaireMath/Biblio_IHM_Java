@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -117,13 +118,24 @@ public class MyWindow extends JFrame {
 
         // TABLEAU
 
-        Object[][] donnee = {
-                {"Harry Potter", "J.K Rowling", "Voldemor meurt !", 5, 2, 2009},
-                {"Eragon", "C. Paolini", "Un monde de dragon", 2, 2, 2000}
-        };
+
         String[] entetes = {"Titre", "Auteur", "Résumé", "Colonne", "Rangée", "Parution"};
 
-        JTable tableau = new JTable(donnee, entetes);
+        Bibliotheque biblio = new Bibliotheque();
+
+        biblio.add("Nohan", "Nohan", "Coucou", 5, 2, "2009");
+        biblio.add("Harry Potter", "Nohan", "HELLO", 3, 1, "2012");
+
+        DefaultTableModel model = new DefaultTableModel(biblio.getDonnee(), entetes);
+
+        JTable tableau = new JTable(model);
+
+        for (int i = 0; i < biblio.getListLivre().size(); i++) {
+
+            model.addRow(biblio.getListLivre().get(i));
+
+        }
+
         tableau.getTableHeader().setFont(new Font("Tahome", Font.BOLD, 14));
         gbc.insets = new Insets(20,0, 0, 50);
         gbc.gridx = 0;
