@@ -7,10 +7,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.*;
-
-import static java.awt.Color.black;
+import java.util.List;
 
 public class MyWindow extends JFrame {
     public MyWindow() {
@@ -23,8 +21,6 @@ public class MyWindow extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         this.setJMenuBar(menuBar);
 
-        int curYear = Calendar.getInstance().get(Calendar.YEAR);
-        System.out.println(curYear);
         /* File Menu and its sub-menus */
         JMenu menuF = new JMenu();
         menuF.setText("Fichier");
@@ -69,7 +65,7 @@ public class MyWindow extends JFrame {
         menuA.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(panel,"Version : 1.0 \nProgrammeurs : Christopher, " +
+                JOptionPane.showMessageDialog(panel, "Version : 1.0 \nProgrammeurs : Christopher, " +
                         "Nohan, Axel et Claire");
             }
 
@@ -111,8 +107,16 @@ public class MyWindow extends JFrame {
         menuStats.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.");
+                List<String> motAvecA = new ArrayList<>();
+                String[] testSplit = {"tata", "toto", "tate", "test", "taboule" };
 
+                for (String mot : testSplit) {
+                    String[] split = mot.split("");
+                    if(split[1].equals("a")) {
+                        motAvecA.add(mot);
+                    }
+                }
+                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
             }
         });
 
@@ -122,27 +126,14 @@ public class MyWindow extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
 
         // TABLEAU
-
-
         String[] entetes = {"Titre", "Auteur", "Résumé", "Colonne", "Rangée", "Parution"};
 
         Bibliotheque biblio = new Bibliotheque();
-
-        biblio.add("Nohan", "Nohan", "Coucou", 5, 2, "2009");
-        biblio.add("Harry Potter", "Nohan", "HELLO", 3, 1, "2012");
-
         DefaultTableModel model = new DefaultTableModel(biblio.getDonnee(), entetes);
-
         JTable tableau = new JTable(model);
 
-        for (int i = 0; i < biblio.getListLivre().size(); i++) {
-
-            model.addRow(biblio.getListLivre().get(i));
-
-        }
-
         tableau.getTableHeader().setFont(new Font("Tahome", Font.BOLD, 14));
-        gbc.insets = new Insets(20,0, 0, 50);
+        gbc.insets = new Insets(20, 0, 0, 50);
         gbc.gridx = 0;
         gbc.gridy = 0;
 
@@ -150,7 +141,7 @@ public class MyWindow extends JFrame {
         gbc.gridheight = 1;
         panel.add(tableau.getTableHeader(), gbc);
 
-        gbc.insets = new Insets(0,0, 0, 50);
+        gbc.insets = new Insets(0, 0, 0, 50);
         gbc.gridx = 0;
         gbc.gridy = 1;
 
@@ -189,6 +180,7 @@ public class MyWindow extends JFrame {
         panel.add(label, gbc);
 
         JTextField textFieldTitle = new JTextField();
+        textFieldTitle.setEnabled(false);
         textFieldTitle.setPreferredSize(new Dimension(100, 20));
         gbc.gridx = 4;
         gbc.gridy = 0;
@@ -201,6 +193,7 @@ public class MyWindow extends JFrame {
         panel.add(labelAuthor, gbc);
 
         JTextField textFieldAuthor = new JTextField();
+        textFieldAuthor.setEnabled(false);
         textFieldAuthor.setPreferredSize(new Dimension(100, 20));
         gbc.gridx = 4;
         gbc.gridy = 1;
@@ -213,6 +206,7 @@ public class MyWindow extends JFrame {
         panel.add(labelParution, gbc);
 
         JTextField textFieldParution = new JTextField();
+        textFieldParution.setEnabled(false);
         textFieldParution.setPreferredSize(new Dimension(100, 20));
         gbc.gridx = 4;
         gbc.gridy = 2;
@@ -225,6 +219,7 @@ public class MyWindow extends JFrame {
         panel.add(labelColumn, gbc);
 
         JTextField textFieldColumn = new JTextField();
+        textFieldColumn.setEnabled(false);
         textFieldColumn.setPreferredSize(new Dimension(100, 20));
         gbc.gridx = 4;
         gbc.gridy = 3;
@@ -237,6 +232,7 @@ public class MyWindow extends JFrame {
         panel.add(labelRangee, gbc);
 
         JTextField textFieldRangee = new JTextField();
+        textFieldRangee.setEnabled(false);
         textFieldRangee.setPreferredSize(new Dimension(100, 20));
         gbc.gridx = 4;
         gbc.gridy = 4;
@@ -249,6 +245,7 @@ public class MyWindow extends JFrame {
         panel.add(labelResume, gbc);
 
         JTextArea textAreaResume = new JTextArea();
+        textAreaResume.setEnabled(false);
         textAreaResume.setPreferredSize(new Dimension(100, 50));
         gbc.gridx = 4;
         gbc.gridy = 5;
@@ -256,6 +253,7 @@ public class MyWindow extends JFrame {
 
         //Bouton Valider
         JButton monButton = new JButton("Valider");
+        monButton.setEnabled(false);
         gbc.gridx = 4;
         gbc.gridy = 6;
         panel.add(monButton, gbc);
@@ -275,7 +273,7 @@ public class MyWindow extends JFrame {
                         try {
                             desktop.open(file.getAbsoluteFile());
                             System.out.println(file.getName() + " a été ouvert");
-                            System.out.println("Le chemin complet du fichier est : " + file.getAbsolutePath());
+                            JOptionPane.showMessageDialog(panel, file.getAbsolutePath());
                         } catch (IOException ioException) {
                             ioException.printStackTrace();
                         }
@@ -286,25 +284,44 @@ public class MyWindow extends JFrame {
             }
         });
 
+        int curYear = Calendar.getInstance().get(Calendar.YEAR);
+
         // Ecoute bouton valider
         monButton.addActionListener(new ActionListener() {
-
+            int i = 0;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (curYear < (getText(textFieldParution)) {
+                if (curYear < (Integer.parseInt(textFieldParution.getText()))) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une date de parution valide.");
                 }
-                else if (getText(textFieldRangee) <= 0 || getText(textFieldRangee) >= 7) {
+                else if (Integer.parseInt(textFieldColumn.getText()) <= 0 || Integer.parseInt(textFieldColumn.getText()) > 5) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
+                }
+                else if (Integer.parseInt(textFieldRangee.getText()) <= 0 || Integer.parseInt(textFieldRangee.getText()) > 7) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
                 }
-                else if (getText(textFieldColumn) <= 0 || getText(textFieldRangee) >= 5) {
-                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
-            }
-                else if (boucle) {
+                else {
+                    System.out.println("Tout va bien");
+                    biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
+                            Integer.parseInt(textFieldColumn.getText()), Integer.parseInt(textFieldRangee.getText()),
+                            Integer.parseInt(textFieldParution.getText()));
 
+                    model.addRow(biblio.getListLivre().get(i++));
+//                    i++;
                 }
-                else { new Livres();
+            }
+        });
 
+        addButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textFieldTitle.setEnabled(true);
+                textFieldAuthor.setEnabled(true);
+                textFieldParution.setEnabled(true);
+                textFieldColumn.setEnabled(true);
+                textFieldRangee.setEnabled(true);
+                textAreaResume.setEnabled(true);
+                monButton.setEnabled(true);
             }
         });
     }

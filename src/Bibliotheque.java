@@ -4,16 +4,13 @@ public class Bibliotheque {
 
     ArrayList<Object[]> listLivre = new ArrayList<Object[]>();
 
-    Object[][] donnee = {
-            {"Coucou", "Coucou", "Hello", 5, 2, "2009"}
-    };
+    Object[][] donnee = {{"Harry Potter", "J.K Rowling", "Voldemort meurt", 5, 3, 2009}};
 
     public Bibliotheque() {
-        /*Array myBooks[][] = {};*/
-
     }
-    void add(String name, String auteur, String resume, int colonne, int rangee, String parution){
-        listLivre.add(new Livres(name, auteur, resume, colonne, rangee, parution).getObjLivre());
+
+    public void add(String name, String auteur, String resume, int colonne, int rangee, int parution){
+        listLivre.add(new Livre(name, auteur, resume, colonne, rangee, parution).getObjLivre());
     }
 
     public ArrayList<Object[]> getListLivre() {

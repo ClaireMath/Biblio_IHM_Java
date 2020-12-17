@@ -1,30 +1,21 @@
-public class Livres {
+public class Livre {
 
     private String titre;
     private String auteur;
     private String resume;
     private int colonne;
     private int rangee;
-    private String parution;
+    private int parution;
     Object[] objLivre;
 
-    /*public Livres(String name, String auteur, String resume, int colonne, int rangee, String parution) {
-        this.name = name;
-        this.auteur = auteur;
-        this.resume = resume;
-        this.colonne = colonne;
-        this.rangee = rangee;
-        this.parution = parution;
-    }*/
-
-    public Livres(String titre, String auteur, String resume, int colonne, int rangee, String parution) {
+    public Livre(String titre, String auteur, String resume, int colonne, int rangee, int parution) {
         this.titre = titre;
         this.auteur = auteur;
         this.resume = resume;
         this.colonne = colonne;
         this.rangee = rangee;
         this.parution = parution;
-        this.objLivre = new Object[] {name, auteur, resume, colonne, rangee, parution};
+        this.objLivre = new Object[] {titre, auteur, resume, colonne, rangee, parution};
     }
 
     public String getTitre() {
@@ -67,11 +58,11 @@ public class Livres {
         this.rangee = rangee;
     }
 
-    public String getParution() {
+    public int getParution() {
         return parution;
     }
 
-    public void setParution(String parution) {
+    public void setParution(int parution) {
         this.parution = parution;
     }
 
