@@ -68,9 +68,8 @@ public class MyWindow extends JFrame {
         menuA.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                JOptionPane.showMessageDialog(panel,"Vous utilisez actuellement la version " +
-                        "1.0 de l'application Bibliothèque.exe créée par Christopher, " +
-                        "Nohan, Axel et Claire.");
+                JOptionPane.showMessageDialog(panel,"Version : 1.0 \nProgrammeurs : Christopher, " +
+                        "Nohan, Axel et Claire");
             }
 
             @Override

@@ -1,14 +1,14 @@
 public class Livres {
 
-    private String name;
+    private String titre;
     private String auteur;
     private String resume;
     private int colonne;
     private int rangee;
     private String parution;
 
-    public Livres(String name, String auteur, String resume, int colonne, int rangee, String parution) {
-        this.name = name;
+    public Livres(String titre, String auteur, String resume, int colonne, int rangee, String parution) {
+        this.titre = titre;
         this.auteur = auteur;
         this.resume = resume;
         this.colonne = colonne;
@@ -16,12 +16,12 @@ public class Livres {
         this.parution = parution;
     }
 
-    public String getName() {
-        return name;
+    public String getTitre() {
+        return titre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitre(String titre) {
+        this.titre = titre;
     }
 
     public String getAuteur() {
