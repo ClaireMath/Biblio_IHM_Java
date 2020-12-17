@@ -129,7 +129,7 @@ public class MyWindow extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
         gbc.gridheight = 1;
         panel.add(tableau.getTableHeader(), gbc);
 
@@ -137,91 +137,109 @@ public class MyWindow extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
 
-        gbc.gridwidth = 1;
         gbc.gridheight = GridBagConstraints.REMAINDER;
         gbc.anchor = GridBagConstraints.NORTH;
         panel.add(tableau, gbc);
+
+        // Bouton Ajouter
+        Icon iconAdd = new ImageIcon("img/add.jpg");
+        JButton addButton = new JButton(iconAdd);
+        addButton.setPreferredSize(new Dimension(37, 37));
+        addButton.setBorderPainted(false);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 1;
+        panel.add(addButton);
+
+        // Bouton Supprimer
+        Icon iconDel = new ImageIcon("img/del.jpg");
+        JButton delButton = new JButton(iconDel);
+        delButton.setPreferredSize(new Dimension(37, 37));
+        delButton.setBorderPainted(false);
+
+        panel.add(delButton);
 
         //FORM
         //Titre
         JLabel label = new JLabel("Titre :");
         gbc.insets = new Insets(20, 10, 0, 0);
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 0;
 
-        gbc.gridwidth = 1;
-        gbc.gridheight = 1;
         panel.add(label, gbc);
 
         JTextField textFieldTitle = new JTextField();
         textFieldTitle.setPreferredSize(new Dimension(100, 20));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 0;
         panel.add(textFieldTitle, gbc);
 
         //Author
         JLabel labelAuthor = new JLabel("Auteur :");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 1;
         panel.add(labelAuthor, gbc);
 
         JTextField textFieldAuthor = new JTextField();
         textFieldAuthor.setPreferredSize(new Dimension(100, 20));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 1;
         panel.add(textFieldAuthor, gbc);
 
         //Parution
         JLabel labelParution = new JLabel("Parution :");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 2;
         panel.add(labelParution, gbc);
 
         JTextField textFieldParution = new JTextField();
         textFieldParution.setPreferredSize(new Dimension(100, 20));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 2;
         panel.add(textFieldParution, gbc);
 
         //Colonne
         JLabel labelColumn = new JLabel("Colonne :");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 3;
         panel.add(labelColumn, gbc);
 
         JTextField textFieldColumn = new JTextField();
         textFieldColumn.setPreferredSize(new Dimension(100, 20));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 3;
         panel.add(textFieldColumn, gbc);
 
         //Rangée
         JLabel labelRangee = new JLabel("Rangée :");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 4;
         panel.add(labelRangee, gbc);
 
         JTextField textFieldRangee = new JTextField();
         textFieldRangee.setPreferredSize(new Dimension(100, 20));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 4;
         panel.add(textFieldRangee, gbc);
 
         //Résumé
         JLabel labelResume = new JLabel("Résumé :");
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridy = 5;
         panel.add(labelResume, gbc);
 
         JTextArea textAreaResume = new JTextArea();
         textAreaResume.setPreferredSize(new Dimension(100, 50));
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 5;
         panel.add(textAreaResume, gbc);
 
         //Bouton Valider
         JButton monButton = new JButton("Valider");
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 6;
         panel.add(monButton, gbc);
 
