@@ -31,6 +31,7 @@ public class MyWindow extends JFrame {
         menuF.setText("Fichier");
         menuBar.add(menuF);
         menuF.setBackground(Color.gray);
+
         JMenuItem menuO = new JMenuItem();
         menuO.setText("Ouvrir");
         menuF.add(menuO);
@@ -44,8 +45,14 @@ public class MyWindow extends JFrame {
         menuQ.setText("Quitter");
         menuF.add(menuQ);
 
+        /**
+         * Instanciation d'un écouteur d'évènement utilisé sur le menu Quitter
+         */
         menuQ.addActionListener(new ActionListener() {
             @Override
+            /**
+             * Méthode qui stoppe le programme au clic du sous-menu quitter
+             */
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
@@ -66,9 +73,14 @@ public class MyWindow extends JFrame {
         menuA.setText("A propos");
         menuBar.add(menuA);
         menuA.setBackground(Color.gray);
-
+        /**
+         * Instanciation d'un écouteur d'évènement utilisé sur le menu A propos
+         */
         menuA.addMouseListener(new MouseListener() {
             @Override
+            /**
+             * Méthode permettant d'afficher un message informant de la version et des personnes responsables de l'appli
+             */
             public void mouseClicked(MouseEvent e) {
                 JOptionPane.showMessageDialog(panel, "Version : 1.0 \nProgrammeurs : Christopher, " +
                         "Nohan, Axel et Claire");
@@ -114,6 +126,9 @@ public class MyWindow extends JFrame {
         DefaultTableModel model = new DefaultTableModel(biblio.getDonnee(), entetes);
         JTable tableau = new JTable(model) {
             @Override
+            /**
+             * Fonction (car on a un return) permettant d'afficher une ligne du tableau sur deux en gris au lieu du blanc
+             */
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
                 Component comp = super.prepareRenderer(renderer, row, column);
                 comp.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
@@ -256,8 +271,15 @@ public class MyWindow extends JFrame {
         elements.add(textAreaResume);
 
         // Fenetre Ouvrir un fichier
+        /**
+         * Instanciation d'un écouteur d'évènement utilisé sur le menu Ouvrir
+         */
         menuO.addActionListener(new ActionListener() {
             @Override
+            /**
+             * Méthode (car ne retourne rien, d'où le void), permettant l'affichage d'une fenêtre filechooser
+             * à laquelle on applique un filtre afin de n'afficher que les fichiers .txt
+             */
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setAcceptAllFileFilterUsed(false);
@@ -287,7 +309,16 @@ public class MyWindow extends JFrame {
         model.addRow(biblio.getListLivre().get(tableau.getRowCount()));
 
         // Ecoute bouton valider
+        /**
+         * Instanciation d'un écouteur d'évènement utilisé sur le bouton Valider
+         */
         monButton.addActionListener(new ActionListener() {
+            /**
+             * Méthode permettant de vérifier que l'année de parution entrée dans le champs du formulaire est valide,
+             * ainsi que la colone et rangée entrée, si la vérification est ok,
+             * on ajoute les champs dans le tableau et dans notre listLivres
+             * puis on désactive les champs du formulaire
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (curYear < (Integer.parseInt(textFieldParution.getText()))) {
@@ -333,14 +364,22 @@ public class MyWindow extends JFrame {
                 }
             }
         });
-// Ecoute Tableau
+        // Ecoute Tableau
         tableau.addFocusListener(new FocusListener() {
+            /**
+             * Méthode permettant de vérifier si on a le focus sur le tableau
+             * @param e notre évènement
+             */
             @Override
             public void focusGained(FocusEvent e) {
                 isFocus = true;
                 isNewForm = false;
                 enableForm(elements);
                 tableau.addMouseListener(new MouseListener() {
+                    /**
+                     * Récupération des éléments du tableau pour les mettre dans les champs du formulaire
+                     * @param e
+                     */
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         monButton.setEnabled(true);
@@ -382,6 +421,11 @@ public class MyWindow extends JFrame {
 
         // Ecoute menu Stats
         menuStats.addActionListener(new ActionListener() {
+            /**
+             * Méthode permettant de trouver tous les titres ayant un a en deuxième lettre et
+             * de les afficher dans une fenêtre de message
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<String> motAvecA = new ArrayList<>();
@@ -402,6 +446,10 @@ public class MyWindow extends JFrame {
 
         // Ecoute bouton ajouter
         addButton.addActionListener(new ActionListener() {
+            /**
+             * Au clic du bouton ajouter, les champs du formulaire sont vidés et réactivés
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 isNewForm = true;
@@ -412,6 +460,12 @@ public class MyWindow extends JFrame {
         });
         // Ecoute bouton supprimer
         delButton.addActionListener(new ActionListener() {
+            /**
+             * au clic du bouton supprimer, la méthode va vérifier si une ligne est selectionnée, si ce
+             * n'est pas le cas, une fenêtre de message s'affiche indiquant qu'aucune ligne n'a été selectionnée
+             * sinon suppression de la ligne selectionnée.
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 int rowSelected = tableau.getSelectedRow();
@@ -431,6 +485,10 @@ public class MyWindow extends JFrame {
         });
 
         menuRaz.addActionListener(new ActionListener() {
+            /**
+             * Méthode permettant d'affacer tous mes livres
+             * @param e
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (tableau.getRowCount() != 0) {
@@ -446,18 +504,29 @@ public class MyWindow extends JFrame {
         });
     }
 
+    /**
+     * Méthode permettant de vider les champs de mon formulaire
+     * @param elements
+     */
     public void emptyForm(ArrayList<JTextComponent> elements) {
         for (JTextComponent element : elements) {
             element.setText(null);
         }
     }
 
+    /**
+     * Méthode permettant d'activer les champs du formulaire
+     * @param elements
+     */
     public void enableForm(ArrayList<JTextComponent> elements) {
         for (JTextComponent element : elements) {
             element.setEnabled(true);
         }
     }
-
+    /**
+     * Méthode permettant la désactivation des champs du formulaire
+     * @param elements
+     */
     public void disableForm(ArrayList<JTextComponent> elements, JButton monButton) {
         for (JTextComponent element : elements) {
             element.setEnabled(false);
