@@ -333,7 +333,7 @@ public class MyWindow extends JFrame {
                 }
             }
         });
-
+// Ecoute Tableau
         tableau.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -380,6 +380,7 @@ public class MyWindow extends JFrame {
             }
         });
 
+        // Ecoute menu Stats
         menuStats.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -399,6 +400,7 @@ public class MyWindow extends JFrame {
             }
         });
 
+        // Ecoute bouton ajouter
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -408,18 +410,23 @@ public class MyWindow extends JFrame {
                 monButton.setEnabled(true);
             }
         });
-
+        // Ecoute bouton supprimer
         delButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < biblio.listLivre.size(); i++) {
-                    if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
-                        biblio.listLivre.remove(i);
+                int rowSelected = tableau.getSelectedRow();
+                if (rowSelected == -1) {
+                    JOptionPane.showMessageDialog(panel, "Aucune ligne n'a été sélectionnée.");
+                } else {
+                    for (int i = 0; i < biblio.listLivre.size(); i++) {
+                        if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
+                            biblio.listLivre.remove(i);
+                        }
                     }
+                    model.removeRow(tableau.getSelectedRow());
+                    emptyForm(elements);
+                    disableForm(elements, monButton);
                 }
-                model.removeRow(tableau.getSelectedRow());
-                emptyForm(elements);
-                disableForm(elements, monButton);
             }
         });
 
