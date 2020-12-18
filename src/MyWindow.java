@@ -140,7 +140,7 @@ public class MyWindow extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
 
-        gbc.gridheight = GridBagConstraints.REMAINDER;
+        gbc.gridheight = 7;
         gbc.anchor = GridBagConstraints.NORTH;
         panel.add(tableau, gbc);
 
@@ -149,21 +149,24 @@ public class MyWindow extends JFrame {
         JButton addButton = new JButton(iconAdd);
         addButton.setPreferredSize(new Dimension(37, 37));
         addButton.setBorderPainted(false);
+        gbc.insets = new Insets(0, 180, 0, 0);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 8;
 
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
-        panel.add(addButton);
+        panel.add(addButton, gbc);
 
         // Bouton Supprimer
         Icon iconDel = new ImageIcon("img/del.jpg");
         JButton delButton = new JButton(iconDel);
         delButton.setPreferredSize(new Dimension(37, 37));
         delButton.setBorderPainted(false);
+        gbc.insets = new Insets(0, 0, 0, 230);
 
-        panel.add(delButton);
+        gbc.gridx = 1;
+        panel.add(delButton, gbc);
 
         //FORM
         //Titre
@@ -332,8 +335,8 @@ public class MyWindow extends JFrame {
                     }
                     else {
                         isFocus = false;
-                        for (int i = 0; i < biblio.listLivre.size(); i++) {
-                            if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
+                        for (int i = 0; i < biblio.getListLivre().size(); i++) {
+                            if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.getListLivre().get(i)[0])) {
                                 tableau.setValueAt(elements.get(0).getText(), tableau.getSelectedRow(), 0);
                                 tableau.setValueAt(elements.get(1).getText(), tableau.getSelectedRow(), 1);
                                 tableau.setValueAt(elements.get(2).getText(), tableau.getSelectedRow(), 5);
@@ -341,7 +344,7 @@ public class MyWindow extends JFrame {
                                 tableau.setValueAt(elements.get(4).getText(), tableau.getSelectedRow(), 4);
                                 tableau.setValueAt(elements.get(5).getText(), tableau.getSelectedRow(), 2);
 
-                                biblio.listLivre.remove(i);
+                                biblio.getListLivre().remove(i);
                                 biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
                                         textFieldColumn.getText(), textFieldRangee.getText(), textFieldParution.getText());
 
@@ -428,7 +431,12 @@ public class MyWindow extends JFrame {
                             motAvecA.add(title);
                         }
                     }
-                    JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
+                    if(motAvecA.size() != 0) {
+                        JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
+                    }
+                    else {
+                        JOptionPane.showMessageDialog(panel, "Aucun livre ayant pour deuxième lettre un A n'a été trouvé");
+                    }
                 }
                 else {
                     JOptionPane.showMessageDialog(panel, "Aucun livre ayant pour deuxième lettre un A n'a été trouvé");
@@ -484,9 +492,9 @@ public class MyWindow extends JFrame {
                 if (rowSelected == -1) {
                     JOptionPane.showMessageDialog(panel, "Aucune ligne n'a été sélectionnée.");
                 } else {
-                    for (int i = 0; i < biblio.listLivre.size(); i++) {
-                        if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
-                            biblio.listLivre.remove(i);
+                    for (int i = 0; i < biblio.getListLivre().size(); i++) {
+                        if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.getListLivre().get(i)[0])) {
+                            biblio.getListLivre().remove(i);
                         }
                     }
                     model.removeRow(tableau.getSelectedRow());
@@ -504,8 +512,8 @@ public class MyWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (tableau.getRowCount() != 0) {
-                    for (int i = 0; i < biblio.listLivre.size(); i++) {
-                        biblio.listLivre.remove(i);
+                    for (int i = 0; i < biblio.getListLivre().size(); i++) {
+                        biblio.getListLivre().remove(i);
                     }
                     model.removeRow(0);
                     disableForm(elements, monButton);

@@ -2,9 +2,9 @@ import java.util.ArrayList;
 
 public class Bibliotheque {
 
-    ArrayList<Object[]> listLivre = new ArrayList<Object[]>();
+    private ArrayList<Object[]> listLivre = new ArrayList<Object[]>();
 
-    Object[][] donnee = {};
+    private Object[][] donnee = {};
 
 
     public Bibliotheque() {
