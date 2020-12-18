@@ -5,16 +5,17 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
 public class MyWindow extends JFrame {
+
+    private boolean isNewForm = true;
+    private boolean isFocus = false;
+
     public MyWindow() {
         super("Ma bibliothèque");
         this.setSize(900, 700);
@@ -282,27 +283,80 @@ public class MyWindow extends JFrame {
 
         int curYear = Calendar.getInstance().get(Calendar.YEAR);
 
+        biblio.add("Harry Potter", "J.K Rowling", "Voldemort meurt", "5", "3", "2009");
+        model.addRow(biblio.getListLivre().get(tableau.getRowCount()));
+
         // Ecoute bouton valider
         monButton.addActionListener(new ActionListener() {
-            int i = 0;
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (curYear < (Integer.parseInt(textFieldParution.getText()))) {
                     JOptionPane.showMessageDialog(panel, "Veuillez entrer une date de parution valide.");
-                } else if (Integer.parseInt(textFieldColumn.getText()) <= 0 || Integer.parseInt(textFieldColumn.getText()) > 5) {
-                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
-                } else if (Integer.parseInt(textFieldRangee.getText()) <= 0 || Integer.parseInt(textFieldRangee.getText()) > 7) {
-                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
-                } else {
-                    biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
-                            Integer.parseInt(textFieldColumn.getText()), Integer.parseInt(textFieldRangee.getText()),
-                            Integer.parseInt(textFieldParution.getText()));
-
-                    model.addRow(biblio.getListLivre().get(i++));
-                    emptyForm(elements);
-                    disableForm(elements, monButton);
                 }
+                else if (Integer.parseInt(textFieldColumn.getText()) <= 0 || Integer.parseInt(textFieldColumn.getText()) > 5) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une colonne comprise entre 1 et 5.");
+                }
+                else if (Integer.parseInt(textFieldRangee.getText()) <= 0 || Integer.parseInt(textFieldRangee.getText()) > 7) {
+                    JOptionPane.showMessageDialog(panel, "Veuillez entrer une rangée comprise entre 1 et 7.");
+                }
+                else {
+                    if(isNewForm) {
+                        biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
+                                textFieldColumn.getText(), textFieldRangee.getText(), textFieldParution.getText());
+
+                        model.addRow(biblio.getListLivre().get(tableau.getRowCount()));
+                        emptyForm(elements);
+                        disableForm(elements, monButton);
+                    }
+                    else {
+                        for (int i = 0; i < biblio.listLivre.size(); i++) {
+                            if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
+                                tableau.setValueAt(elements.get(0).getText(), tableau.getSelectedRow(), 0);
+                                tableau.setValueAt(elements.get(1).getText(), tableau.getSelectedRow(), 1);
+                                tableau.setValueAt(elements.get(2).getText(), tableau.getSelectedRow(), 5);
+                                tableau.setValueAt(elements.get(3).getText(), tableau.getSelectedRow(), 3);
+                                tableau.setValueAt(elements.get(4).getText(), tableau.getSelectedRow(), 4);
+                                tableau.setValueAt(elements.get(5).getText(), tableau.getSelectedRow(), 2);
+                                System.out.println(biblio.listLivre);
+                                System.out.println("AVANT = " + biblio.listLivre.get(i)[0] + ", " + biblio.listLivre.get(i)[1] + ", " + biblio.listLivre.get(i)[2] + ", " + biblio.listLivre.get(i)[3] + ", " + biblio.listLivre.get(i)[4] + ", " + biblio.listLivre.get(i)[5]);
+                                biblio.listLivre.remove(i);
+                                System.out.println(biblio.listLivre);
+                                biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
+                                        textFieldColumn.getText(), textFieldRangee.getText(), textFieldParution.getText());
+                                System.out.println(biblio.listLivre);
+                                System.out.println("APRES = " + biblio.listLivre.get(i)[0] + ", " + biblio.listLivre.get(i)[1] + ", " + biblio.listLivre.get(i)[2] + ", " + biblio.listLivre.get(i)[3] + ", " + biblio.listLivre.get(i)[4] + ", " + biblio.listLivre.get(i)[5]);
+                                emptyForm(elements);
+                                isNewForm = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        tableau.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                System.out.println("FOCUS");
+                isFocus = true;
+                isNewForm = false;
+                enableForm(elements);
+                monButton.setEnabled(true);
+                elements.get(0).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 0));
+                elements.get(1).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 1));
+                elements.get(2).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 5));
+                elements.get(3).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 3));
+                elements.get(4).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 4));
+                elements.get(5).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 2));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                System.out.println("PLUS FOCUS");
+//                emptyForm(elements);
+//                disableForm(elements, monButton);
+                isFocus = false;
             }
         });
 
@@ -310,23 +364,18 @@ public class MyWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 List<String> motAvecA = new ArrayList<>();
-                String[] testSplit = {"tata", "toto", "tate", "test", "taboule"};
-
-                for (String mot : testSplit) {
-                    String[] split = mot.split("");
-                    if (split[1].equals("a")) {
-                        motAvecA.add(mot);
+                if(biblio.getListLivre().size() != 0) {
+                    for (int i = 0; i < biblio.getListLivre().size() ; i++) {
+                        String title = (String) biblio.getListLivre().get(i)[0];
+                        if (title.split("")[1].equals("a")) {
+                            motAvecA.add(title);
+                        }
                     }
+                    JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
                 }
-//                for (int i = 0; i < 1 ; i++) {
-//                    for (int j = 0; j < tableau.getRowCount(); j++) {
-//                        String split = .split("");
-//                        if (split[1].equals("a")) {
-//                            motAvecA.add(mot);
-//                        }
-//                    }
-//                }
-                JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui ont pour deuxième lettre dans leur titre la lettre A.\n" + motAvecA);
+                else {
+                    JOptionPane.showMessageDialog(panel, "Aucun livre ayant pour deuxième lettre un A n'a été trouvé");
+                }
             }
         });
 
@@ -335,13 +384,18 @@ public class MyWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 emptyForm(elements);
                 enableForm(elements);
-//                monButton.setEnabled(true);
+                monButton.setEnabled(true);
             }
         });
 
         delButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < biblio.listLivre.size(); i++) {
+                    if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
+                        biblio.listLivre.remove(i);
+                    }
+                }
                 model.removeRow(tableau.getSelectedRow());
             }
         });
@@ -350,6 +404,11 @@ public class MyWindow extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 while (tableau.getRowCount() != 0) {
+                    for (int i = 0; i < biblio.listLivre.size(); i++) {
+                        if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
+                            biblio.listLivre.remove(i);
+                        }
+                    }
                     model.removeRow(0);
                 }
                 disableForm(elements, monButton);

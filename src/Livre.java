@@ -3,12 +3,12 @@ public class Livre {
     private String titre;
     private String auteur;
     private String resume;
-    private int colonne;
-    private int rangee;
-    private int parution;
-    Object[] objLivre;
+    private String colonne;
+    private String rangee;
+    private String parution;
+    private Object[] objLivre;
 
-    public Livre(String titre, String auteur, String resume, int colonne, int rangee, int parution) {
+    public Livre(String titre, String auteur, String resume, String colonne, String rangee, String parution) {
         this.titre = titre;
         this.auteur = auteur;
         this.resume = resume;
@@ -42,27 +42,27 @@ public class Livre {
         this.resume = resume;
     }
 
-    public int getColonne() {
+    public String getColonne() {
         return colonne;
     }
 
-    public void setColonne(int colonne) {
+    public void setColonne(String colonne) {
         this.colonne = colonne;
     }
 
-    public int getRangee() {
+    public String getRangee() {
         return rangee;
     }
 
-    public void setRangee(int rangee) {
+    public void setRangee(String rangee) {
         this.rangee = rangee;
     }
 
-    public int getParution() {
+    public String getParution() {
         return parution;
     }
 
-    public void setParution(int parution) {
+    public void setParution(String parution) {
         this.parution = parution;
     }
 
