@@ -309,6 +309,7 @@ public class MyWindow extends JFrame {
                         disableForm(elements, monButton);
                     }
                     else {
+                        isFocus = false;
                         for (int i = 0; i < biblio.listLivre.size(); i++) {
                             if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
                                 tableau.setValueAt(elements.get(0).getText(), tableau.getSelectedRow(), 0);
@@ -317,15 +318,13 @@ public class MyWindow extends JFrame {
                                 tableau.setValueAt(elements.get(3).getText(), tableau.getSelectedRow(), 3);
                                 tableau.setValueAt(elements.get(4).getText(), tableau.getSelectedRow(), 4);
                                 tableau.setValueAt(elements.get(5).getText(), tableau.getSelectedRow(), 2);
-                                System.out.println(biblio.listLivre);
-                                System.out.println("AVANT = " + biblio.listLivre.get(i)[0] + ", " + biblio.listLivre.get(i)[1] + ", " + biblio.listLivre.get(i)[2] + ", " + biblio.listLivre.get(i)[3] + ", " + biblio.listLivre.get(i)[4] + ", " + biblio.listLivre.get(i)[5]);
+
                                 biblio.listLivre.remove(i);
-                                System.out.println(biblio.listLivre);
                                 biblio.add(textFieldTitle.getText(), textFieldAuthor.getText(), textAreaResume.getText(),
                                         textFieldColumn.getText(), textFieldRangee.getText(), textFieldParution.getText());
-                                System.out.println(biblio.listLivre);
-                                System.out.println("APRES = " + biblio.listLivre.get(i)[0] + ", " + biblio.listLivre.get(i)[1] + ", " + biblio.listLivre.get(i)[2] + ", " + biblio.listLivre.get(i)[3] + ", " + biblio.listLivre.get(i)[4] + ", " + biblio.listLivre.get(i)[5]);
+
                                 emptyForm(elements);
+                                disableForm(elements, monButton);
                                 isNewForm = true;
                                 break;
                             }
@@ -338,24 +337,45 @@ public class MyWindow extends JFrame {
         tableau.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                System.out.println("FOCUS");
                 isFocus = true;
                 isNewForm = false;
                 enableForm(elements);
-                monButton.setEnabled(true);
-                elements.get(0).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 0));
-                elements.get(1).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 1));
-                elements.get(2).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 5));
-                elements.get(3).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 3));
-                elements.get(4).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 4));
-                elements.get(5).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 2));
+                tableau.addMouseListener(new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        monButton.setEnabled(true);
+                        elements.get(0).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 0));
+                        elements.get(1).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 1));
+                        elements.get(2).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 5));
+                        elements.get(3).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 3));
+                        elements.get(4).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 4));
+                        elements.get(5).setText((String) tableau.getValueAt(tableau.getSelectedRow(), 2));
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+
+                    }
+                });
             }
 
             @Override
             public void focusLost(FocusEvent e) {
-                System.out.println("PLUS FOCUS");
-//                emptyForm(elements);
-//                disableForm(elements, monButton);
                 isFocus = false;
             }
         });
@@ -382,6 +402,7 @@ public class MyWindow extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                isNewForm = true;
                 emptyForm(elements);
                 enableForm(elements);
                 monButton.setEnabled(true);
@@ -397,6 +418,8 @@ public class MyWindow extends JFrame {
                     }
                 }
                 model.removeRow(tableau.getSelectedRow());
+                emptyForm(elements);
+                disableForm(elements, monButton);
             }
         });
 
