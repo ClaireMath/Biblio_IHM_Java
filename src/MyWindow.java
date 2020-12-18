@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.text.JTextComponent;
@@ -92,13 +90,6 @@ public class MyWindow extends JFrame {
             @Override
             public void mouseExited(MouseEvent e) {
 
-            }
-        });
-
-        menuNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(panel, "Voici la liste des nouveautés, parues à partir de 2018.");
             }
         });
 
@@ -333,7 +324,8 @@ public class MyWindow extends JFrame {
                 }
             }
         });
-// Ecoute Tableau
+
+        // Ecoute Tableau
         tableau.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -400,6 +392,25 @@ public class MyWindow extends JFrame {
             }
         });
 
+        menuNew.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                List<String> yearSupp2008 = new ArrayList<>();
+                if(biblio.getListLivre().size() != 0) {
+                    for (int i = 0; i < biblio.getListLivre().size() ; i++) {
+                        int year = Integer.parseInt((String) biblio.getListLivre().get(i)[5]);
+                        if (year >= 2008) {
+                            yearSupp2008.add("Titre : " + biblio.getListLivre().get(i)[0] + ", Auteur : " + biblio.getListLivre().get(i)[1] + "\n");
+                        }
+                    }
+                    JOptionPane.showMessageDialog(panel, "Voici la liste des livres qui sont sortis depuis 2008 : \n" + yearSupp2008);
+                }
+                else {
+                    JOptionPane.showMessageDialog(panel, "Aucun livre dont l'année est supérieur à 2008 n'a été trouvé");
+                }
+            }
+        });
+
         // Ecoute bouton ajouter
         addButton.addActionListener(new ActionListener() {
             @Override
@@ -410,6 +421,7 @@ public class MyWindow extends JFrame {
                 monButton.setEnabled(true);
             }
         });
+
         // Ecoute bouton supprimer
         delButton.addActionListener(new ActionListener() {
             @Override
@@ -435,13 +447,11 @@ public class MyWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 while (tableau.getRowCount() != 0) {
                     for (int i = 0; i < biblio.listLivre.size(); i++) {
-                        if (tableau.getValueAt(tableau.getSelectedRow(), 0).equals(biblio.listLivre.get(i)[0])) {
-                            biblio.listLivre.remove(i);
-                        }
+                        biblio.listLivre.remove(i);
                     }
                     model.removeRow(0);
+                    disableForm(elements, monButton);
                 }
-                disableForm(elements, monButton);
             }
         });
     }
